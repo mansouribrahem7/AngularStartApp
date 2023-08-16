@@ -1,0 +1,70 @@
+<div class="mb-3">
+  <label for="" class="form-label">Category</label>
+  <select
+    [(ngModel)]="selectedName"
+    class="form-select form-select-lg"
+    name=""
+    id=""
+  >
+    <option *ngFor="let cat of categories" [value]="cat.name">
+      {{ cat.name }}
+    </option>
+  </select>
+</div>
+<h2 class="bg-warning">Selected Category :{{ selectedName }}</h2>
+
+<div class="table-responsive">
+  <table class="table table-primary">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Image</th>
+        <th scope="col">Available Quantity</th>
+        <th scope="col">Price</th>
+        <th scope="col">Needed Quantity</th>
+        <th scope="col">Buy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- [hidden]="product.quantity == 0" -->
+      <ng-container *ngFor="let product of prodList">
+        <tr Styling>
+          <td scope="row">{{ product.id }}</td>
+          <td>{{ product.name }}</td>
+          <td><img [src]="product.imgUrl" alt="img" /></td>
+          <td>
+            <!-- //////////using switch case //////// -->
+            <ng-container [ngSwitch]="product.quantity">
+              <div *ngSwitchCase="0">Out Of Stack</div>
+              <div *ngSwitchCase="1">Last piece</div>
+              <div *ngSwitchCase="2">Last two pieces</div>
+              <div *ngSwitchDefault>{{ product.quantity }}</div>
+            </ng-container>
+
+            <!-- ////////////using if- else//////////// -->
+            <!-- <div *ngIf="product.quantity != 0; else OutOfStack">
+              {{ product.quantity }}
+            </div> -->
+
+            <!-- <ng-template #OutOfStack>Out Of Stack</ng-template> -->
+          </td>
+          <td>{{ product.price }}</td>
+          <td><input #userInput type="number" class="form-control" /></td>
+          <td>
+            <button
+              class="btn btn-primary"
+              (click)="buy(product.price, userInput.value)"
+            >
+              Add To Cart
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <hr />
+  <button class="btn btn-primary" (click)="(buy)">Buy Selected</button>
+  <h1>Total order price : {{ totalPrice }}</h1>
+</div>
