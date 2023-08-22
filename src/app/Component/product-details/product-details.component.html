@@ -1,0 +1,10 @@
+<div class="card mt-3" style="width: 18rem">
+  <img [src]="selectedProduct.imgUrl" class="card-img-top" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">{{ selectedProduct.name }}</h5>
+    <p class="card-text">
+      {{ selectedProduct.price }}
+    </p>
+    <a class="btn btn-primary" (click)="goBack()">Go Back</a>
+  </div>
+</div>

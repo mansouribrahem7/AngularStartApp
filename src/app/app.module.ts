@@ -9,6 +9,12 @@ import { HomeComponent } from './Component/home/home.component';
 import { ProductListComponent } from './Component/product-list/product-list.component';
 import { FormsModule } from '@angular/forms';
 import { StylingDirective } from './Directives/styling.directive';
+import { OrderComponent } from './Component/order/order.component';
+import { AppRoutingModule } from './app-routing.module';
+import { NotFoundComponent } from './Component/not-found/not-found.component';
+import { MainLayoutComponent } from './Component/main-layout/main-layout.component';
+import { UserLoginComponent } from './Component/user-login/user-login.component';
+import { ProductDetailsComponent } from './Component/product-details/product-details.component';
 
 @NgModule({
   declarations: [
@@ -19,8 +25,13 @@ import { StylingDirective } from './Directives/styling.directive';
     HomeComponent,
     ProductListComponent,
     StylingDirective,
+    OrderComponent,
+    NotFoundComponent,
+    MainLayoutComponent,
+    UserLoginComponent,
+    ProductDetailsComponent,
   ],
-  imports: [BrowserModule, FormsModule],
+  imports: [BrowserModule, FormsModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
 })

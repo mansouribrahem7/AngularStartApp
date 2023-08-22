@@ -1,85 +1,45 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  OnChanges,
+  EventEmitter,
+  AfterViewInit,
+} from '@angular/core';
 import { Icategory } from 'src/app/Models/icategory';
 import { Iproduct } from 'src/app/Models/iproduct';
+import { ProductService } from 'src/app/Services/product.service';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css'],
 })
-export class ProductListComponent {
-  selectedName: string;
+export class ProductListComponent implements OnChanges, AfterViewInit {
+  @Output() totalPriceChanged: EventEmitter<number>;
+  selectedCatId: number = 0;
+  @Input() changableCatId: number = 0;
   prodList: Iproduct[];
+  selectedProductList: Iproduct[];
   categories: Icategory[];
   totalPrice: number = 0;
   buy(price: number, userQty: string) {
     if (userQty) {
       this.totalPrice += price * parseInt(userQty);
+      this.totalPriceChanged.emit(this.totalPrice);
     }
   }
 
-  constructor() {
-    this.prodList = [
-      {
-        id: 1,
-        name: 'IPhone',
-        price: 2500,
-        quantity: 2,
-        imgUrl: 'https://fakeimg.pl/250x100/',
-        categeoryId: 1,
-      },
-      {
-        id: 2,
-        name: 'Huawi',
-        price: 2500,
-        quantity: 1,
-        imgUrl: 'https://fakeimg.pl/250x100/',
-        categeoryId: 1,
-      },
-      {
-        id: 3,
-        name: 'Dell',
-        price: 2500,
-        quantity: 4,
-        imgUrl: 'https://fakeimg.pl/250x100/',
-        categeoryId: 2,
-      },
-      {
-        id: 4,
-        name: 'lenovo',
-        price: 2520,
-        quantity: 0,
-        imgUrl: 'https://fakeimg.pl/250x100/',
-        categeoryId: 2,
-      },
-      {
-        id: 5,
-        name: 'hp',
-        price: 5000,
-        quantity: 1,
-        imgUrl: 'https://fakeimg.pl/250x100/',
-        categeoryId: 2,
-      },
-      {
-        id: 6,
-        name: 'mac',
-        price: 50000,
-        quantity: 2,
-        imgUrl: 'https://fakeimg.pl/250x100/',
-        categeoryId: 2,
-      },
-      {
-        id: 7,
-        name: 'premium',
-        price: 50000,
-        quantity: 0,
-        imgUrl: 'https://fakeimg.pl/250x100/',
-        categeoryId: 1,
-      },
-    ];
-    this.categories = [
-      { id: 1, name: 'Phones' },
-      { id: 2, name: 'Laptops' },
-    ];
+  filteredProds(selectedCattId: number) {
+    this.selectedProductList = this.productService.getByCatId(selectedCattId);
+  }
+
+  constructor(private productService: ProductService) {
+    this.totalPriceChanged = new EventEmitter<number>();
+    this.selectedProductList = this.productService.getAll();
+  }
+  ngAfterViewInit() {}
+  ngOnChanges() {
+    this.filteredProds(this.changableCatId);
   }
 }
